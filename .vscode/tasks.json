@@ -5,19 +5,16 @@
             "label": "C/C++: g++ Aktive Datei kompilieren",
             "command": "/usr/bin/g++",
             "args": [
-                "-pthread",
-                "-g",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                "-Wl,--copy-dt-needed-entries",
                 "-I",
                 "/usr/local/include/opencv4",
                 "-lopencv_core",
                 "-lopencv_imgproc",
-                "-lopencv_highgui",
                 "-lX11",
-                "-lXtst"
+                "-lXtst",
+                "-pthread"
             ],
             "options": {
                 "cwd": "${fileDirname}"

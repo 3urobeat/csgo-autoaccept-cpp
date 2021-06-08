@@ -2,7 +2,6 @@
 #include <chrono>
 #include <thread>
 #include <opencv2/opencv.hpp> //call before xlib. Issue: https://github.com/opencv/opencv/issues/7113 (we are in 2021 and this issue from 2016 still seems to exist? or am I at fault?)
-#include <opencv2/highgui.hpp>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XTest.h> //used to simulate mouse click
