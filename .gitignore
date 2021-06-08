@@ -32,4 +32,5 @@
 *.app
 
 # Custom
+csgo-autoaccept-cpp
 *.code-workspace
