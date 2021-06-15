@@ -39,7 +39,7 @@ void startTimer(function<void(void)> function, unsigned int interval) //https://
 //Function that will get executed by startTimer() to check the screen for the 'Accept' button
 void IntervalEvent()
 {
-    cout << "\r[" << i << "] Searching..." << flush; //Print and let it replace itself: https://stackoverflow.com/a/58047767
+    cout << "\r[" << i << "] Searching..." << flush; //Print and let it replace itself
 
     //auto startTime = chrono::steady_clock::now(); //only needed for testing to measure time this interval takes
     bool breakLoop = false;
@@ -48,7 +48,7 @@ void IntervalEvent()
     XImage *img  = XGetImage(display, root, x, y, width, height, AllPlanes, ZPixmap); //make a screenshot
     Mat    cvImg = Mat(height, width, CV_8UC4, img->data); //convert XImage into OpenCV Mat
 
-    cvtColor(cvImg, cvImg, COLOR_BGR2HSV); //convert color scheme to HSV which made the recognition in CS better
+    cvtColor(cvImg, cvImg, COLOR_BGR2HSV); //convert color scheme to HSV which made the recognition in CS better (inRange() just simply didn't recognize any color in the cs window but worked fine everywhere else)
     inRange(cvImg, Scalar(60, 140, 155), Scalar(70, 150, 175), cvImg); //apply color mask to filter 'Accept' button (lower & upper threshold)
 
     
