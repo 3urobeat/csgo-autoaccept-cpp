@@ -21,8 +21,30 @@ Head over to the [release section](https://github.com/HerrEurobeat/csgo-autoacce
 
 **"Harder" way if you would like to compile it yourself:**  
 Clone this repository using git or download it as a .zip.  
-Make sure you have `cmake`, `make`, `g++` and `OpenCV` installed.  
-If your package manager doesn't have OpenCV in their repositories then follow [this tutorial](https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html) to install & set it up.  
+Make sure you have `cmake`, `make` and `g++` installed.  
+  
+Compile & install OpenCV by following these commands:  
+```
+# Download and unpack sources
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
+unzip opencv.zip
+
+# Create build directory
+mkdir -p build && cd build
+
+# Configure
+cmake  ../opencv-4.x
+
+# Build
+cmake --build . -j 8
+
+# Install
+sudo make install
+```
+
+> Replace `-j 8` in the last command with how many CPU threads you would like to dedicate.
+
+&nbsp;
 
 Then open a terminal in the folder containing the files that you cloned from this repository.  
 Go into the build folder: `cd build`  
