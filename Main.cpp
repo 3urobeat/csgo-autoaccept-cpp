@@ -16,28 +16,8 @@ Display* display;
 Window   root;
 
 
-//Function to execute IntervalEvent() every checkInterval ms
-void startTimer(function<void(void)> function, unsigned int interval) //https://stackoverflow.com/a/43373364
-{
-    i = 0; //reset counter
-
-    //Create new thread
-    thread([function, interval]()
-    {
-        while (true)
-        { 
-            auto x = chrono::steady_clock::now() + chrono::milliseconds(interval); //save current timestamp + intervalTime before running function
-
-            i++; //increase counter by 1
-            function(); //run specified funtion (from this function arguments)
-            this_thread::sleep_until(x); //wait remaining time (function took some time to execute ofc)
-        }
-    }).detach();
-}
-
-
-//Function that will get executed by startTimer() to check the screen for the 'Accept' button
-void IntervalEvent()
+//Function that will get executed every checkInterval ms to check the screen for the 'Accept' button
+void intervalEvent()
 {
     cout << "\r[" << i << "] Searching..." << flush; //Print and let it replace itself
 
@@ -113,6 +93,13 @@ int main() //Entry point
     width  = XDisplayWidth(display, screen); //this seems to return both monitors combined. If this impacts the scanning speed severely this needs to be fixed (seems to be fine)
     height = XDisplayHeight(display, screen);
 
-    startTimer(IntervalEvent, checkInterval); //start the interval
-    while (true); //keep the application running
+    //run intervalEvent() every checkInterval ms
+    while (true) {
+        intervalEvent();
+
+        i++; //increase counter
+        
+        auto x = chrono::steady_clock::now() + chrono::milliseconds(checkInterval);
+        this_thread::sleep_until(x);
+    }
 }
