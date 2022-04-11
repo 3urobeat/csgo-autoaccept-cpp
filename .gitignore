@@ -34,3 +34,5 @@
 # Custom
 csgo-autoaccept-cpp
 *.code-workspace
+build/*
+!build/.gitkeep
