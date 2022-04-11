@@ -77,7 +77,7 @@ void intervalEvent()
 
 int main() //Entry point
 {
-    const string version    = "1.0";
+    const string version    = "1.1";
     const int checkInterval = 4000;
 
     cout << "\ncsgo-autoaccept-cpp script version " + version + " by 3urobeat" << endl;
