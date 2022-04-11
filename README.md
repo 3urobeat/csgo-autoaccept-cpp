@@ -14,7 +14,14 @@ This script is for Linux only. If you are on Windows see [my other repository fo
 
 ## Download
 **Easy way:**  
+Install `OpenCV` using your package manager (for example on Arch: `sudo pacman -S opencv`)  
+If your package manager's repositories don't contain pre-built opencv binaries you have to compile it yourself. Take a look at the instructions below!  
+  
 Head over to the [release section](https://github.com/HerrEurobeat/csgo-autoaccept/releases/latest) and download the latest executable.  
+  
+Open a terminal in the folder the executable is now located (your Downloads folder I guess?).  
+Make sure the binary is executable: `chmod +x ./csgo-autoaccept-cpp`  
+And run it: `./csgo-autoaccept-cpp`  
 
 &nbsp;
 
