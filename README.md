@@ -2,9 +2,9 @@
 This C++ script automatically accepts CS:GO matches for you by analyzing your screen every 4 seconds and moving your mouse when it detects the 'Accept' button.  
 Since this script does not interfere with any game files it should be completely VAC safe.  
 
-This script is for Linux only. If you are on Windows see [my other repository for a Windows version.](https://github.com/HerrEurobeat/csgo-autoaccept)  
+This script is for Linux only. If you are on Windows see [my other repository for a Windows version.](https://github.com/3urobeat/csgo-autoaccept)  
 
-![Screenshot](https://raw.githubusercontent.com/HerrEurobeat/csgo-autoaccept-cpp/master/.github/img/showcase.png)   
+![Screenshot](https://raw.githubusercontent.com/3urobeat/csgo-autoaccept-cpp/master/.github/img/showcase.png)   
   
 &nbsp;
 
@@ -17,7 +17,7 @@ This script is for Linux only. If you are on Windows see [my other repository fo
 Install `OpenCV` using your package manager (for example on Arch: `sudo pacman -S opencv`)  
 If your package manager's repositories don't contain pre-built opencv binaries you have to compile it yourself. Take a look at the instructions below!  
   
-Head over to the [release section](https://github.com/HerrEurobeat/csgo-autoaccept/releases/latest) and download the latest executable.  
+Head over to the [release section](https://github.com/3urobeat/csgo-autoaccept/releases/latest) and download the latest executable.  
   
 Open a terminal in the folder the executable is now located (your Downloads folder I guess?).  
 Make sure the binary is executable: `chmod +x ./csgo-autoaccept-cpp`  
