@@ -16,6 +16,8 @@ This script is for Linux only. If you are on Windows see [my other repository fo
 **Easy way:**  
 Install `OpenCV` using your package manager (for example on Arch: `sudo pacman -S opencv`)  
 If your package manager's repositories don't contain pre-built opencv binaries you have to compile it yourself. Take a look at the instructions below!  
+
+Note: I had issues with the Arch opencv package where my program would not compile with linker errors. Compiling opencv myself solved this issue. YMMV.
   
 Head over to the [release section](https://github.com/3urobeat/csgo-autoaccept/releases/latest) and download the latest executable.  
   
