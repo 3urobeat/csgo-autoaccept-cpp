@@ -3,15 +3,15 @@
  * Project: csgo-autoaccept-cpp
  * Created Date: 04.06.2021 17:00:05
  * Author: 3urobeat
- * 
- * Last Modified: 01.07.2023 12:41:21
+ *
+ * Last Modified: 11.11.2023 19:08:00
  * Modified By: 3urobeat
- * 
+ *
  * Copyright (c) 2021 3urobeat <https://github.com/3urobeat>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>. 
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 
@@ -43,21 +43,10 @@ void intervalEvent()
     int  matches   = 0;
 
     XImage *img  = XGetImage(display, root, x, y, width, height, AllPlanes, ZPixmap); // Make a screenshot
-    Mat    cvImg = Mat(height, width, CV_8UC4, img->data); // Convert XImage into OpenCV Mat
+    Mat    cvImg = Mat(height, width, CV_8UC4, img->data);                            // Convert XImage into OpenCV Mat
 
-    cvtColor(cvImg, cvImg, COLOR_BGR2HSV); // Convert color scheme to HSV which made the recognition in CS better (inRange() just simply didn't recognize any color in the cs window but worked fine everywhere else)
+    cvtColor(cvImg, cvImg, COLOR_BGR2HSV);                             // Convert color scheme to HSV which made the recognition in CS better (inRange() just simply didn't recognize any color in the cs window but worked fine everywhere else)
     inRange(cvImg, Scalar(60, 140, 155), Scalar(70, 150, 175), cvImg); // Apply color mask to filter 'Accept' button (lower & upper threshold)
-
-    
-    // Function to print result messages and to clean up the memory (Nested functions: https://stackoverflow.com/a/4324780/12934162)
-    auto cleanUp = [&] ()
-    {
-        //auto endTime = chrono::steady_clock::now(); // A few messages only needed for testing
-        //cout << "\nMatches: " << matches << endl;
-        //cout << "This iteration took " << chrono::duration_cast<chrono::milliseconds>(endTime - startTime).count() << "ms.\n" << endl;
-
-        XDestroyImage(img); // Release allocated memory on the last iteration (otherwise we create a memory leak)
-    };
 
 
     // Iterate through every pixel in the Mat
@@ -74,21 +63,28 @@ void intervalEvent()
                     cout << "\r--------------------------------------------" << endl;
                     cout << "[" << i << "] Found button! Accepting match..." << endl;
                     cout << "\nIf everyone accepted and you are in the loading screen then please close this window.\nI will otherwise continue searching.\n" << endl;
-                    
+
+                    // Set cursor position and click
                     XWarpPointer(display, None, root, 0, 0, 0, 0, col, row); // Update cursor position
-                    XTestFakeButtonEvent(display, 1, True, CurrentTime); // Press and release left click
+                    XTestFakeButtonEvent(display, 1, True, CurrentTime);     // Press and release left click
                     XTestFakeButtonEvent(display, 1, False, CurrentTime);
                     XFlush(display); // Thanks for mentioning that I need to flush the output buffer: https://stackoverflow.com/a/2433488/12934162
 
-                    cleanUp();
-                    breakLoop = true; // Prevent next iteration from running
+                    // Stop loop prematurely
+                    breakLoop = true;
                     break;
                 }
             }
-
-            if ((row >= cvImg.rows - 1 && col >= cvImg.cols - 1) || breakLoop) cleanUp(); // Check for the last iteration
         }
     }
+
+
+    // Clean up when we are done with this screenshot
+    //auto endTime = chrono::steady_clock::now(); // A few messages only needed for testing
+    //cout << "\nMatches: " << matches << endl;
+    //cout << "This iteration took " << chrono::duration_cast<chrono::milliseconds>(endTime - startTime).count() << "ms.\n" << endl;
+
+    XDestroyImage(img); // Release allocated memory on the last iteration (otherwise we create a memory leak)
 }
 
 
@@ -102,7 +98,8 @@ int main() // Entry point
     cout << "\nChecking for 'Accept' window every " + to_string(checkInterval / 1000) + " seconds..." << endl;
 
 
-    display = XOpenDisplay(0); // Establish connection to the X11 server https://stackoverflow.com/questions/24988164/c-fast-screenshots-in-linux-for-use-with-opencv & https://stackoverflow.com/questions/4049877/how-to-save-ximage-as-bitmap
+    // Establish connection to the X11 server https://stackoverflow.com/questions/24988164/c-fast-screenshots-in-linux-for-use-with-opencv & https://stackoverflow.com/questions/4049877/how-to-save-ximage-as-bitmap
+    display = XOpenDisplay(0);
     screen  = XDefaultScreen(display);
     root    = RootWindow(display, screen);
 
@@ -110,12 +107,13 @@ int main() // Entry point
     width  = XDisplayWidth(display, screen); // This seems to return both monitors combined. If this impacts the scanning speed severely this needs to be fixed (seems to be fine)
     height = XDisplayHeight(display, screen);
 
+
     // Run intervalEvent() every checkInterval ms
     while (true) {
         intervalEvent();
 
         i++; // Increase counter
-        
+
         auto x = chrono::steady_clock::now() + chrono::milliseconds(checkInterval);
         this_thread::sleep_until(x);
     }
